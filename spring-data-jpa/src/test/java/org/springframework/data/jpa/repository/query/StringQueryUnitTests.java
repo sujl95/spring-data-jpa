@@ -15,7 +15,8 @@
  */
 package org.springframework.data.jpa.repository.query;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -502,7 +503,7 @@ class StringQueryUnitTests {
 
 		softly.assertThat(query.getQueryString()).isEqualTo(queryString);
 		softly.assertThat(query.hasParameterBindings()).isFalse();
-		softly.assertThat(query.getParameterBindings()).hasSize(0);
+		softly.assertThat(query.getParameterBindings()).isEmpty();
 
 		softly.assertAll();
 	}

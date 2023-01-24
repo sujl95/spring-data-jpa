@@ -15,20 +15,20 @@
  */
 package org.springframework.data.jpa.repository.cdi;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.Set;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.se.SeContainer;
 import jakarta.enterprise.inject.se.SeContainerInitializer;
 import jakarta.enterprise.inject.spi.Bean;
 
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Integration tests for Spring Data JPA CDI extension.
@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Oliver Gierke
  * @author Mark Paluch
  * @author Jens Schauder
+ * @author Krzysztof Krason
  */
 class CdiExtensionIntegrationTests {
 
@@ -83,7 +84,7 @@ class CdiExtensionIntegrationTests {
 	void returnOneFromCustomImpl() {
 
 		RepositoryConsumer repositoryConsumer = container.select(RepositoryConsumer.class).get();
-		assertThat(repositoryConsumer.returnOne()).isEqualTo(1);
+		assertThat(repositoryConsumer.returnOne()).isOne();
 	}
 
 	@Test // DATAJPA-584, DATAJPA-1180
@@ -97,6 +98,6 @@ class CdiExtensionIntegrationTests {
 	void useQualifiedFragmentUserRepo() {
 
 		RepositoryConsumer repositoryConsumer = container.select(RepositoryConsumer.class).get();
-		assertThat(repositoryConsumer.returnOneUserDB()).isEqualTo(1);
+		assertThat(repositoryConsumer.returnOneUserDB()).isOne();
 	}
 }

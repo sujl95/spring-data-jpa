@@ -15,19 +15,20 @@
  */
 package org.springframework.data.jpa.repository.config;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
-import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,17 +44,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.util.ClassUtils;
 
 /**
  * Integration test for {@link JpaRepositoriesRegistrar}.
  *
  * @author Oliver Gierke
  * @author Jens Schauder
+ * @author Erik Pellizzon
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
-public class JpaRepositoriesRegistrarIntegrationTests {
+class JpaRepositoriesRegistrarIntegrationTests {
 
 	@Autowired UserRepository repository;
 
@@ -103,7 +104,7 @@ public class JpaRepositoriesRegistrarIntegrationTests {
 	void doesNotProxyPlainAtRepositoryBeans() {
 
 		assertThat(sampleRepository).isNotNull();
-		assertThat(ClassUtils.isCglibProxy(sampleRepository)).isFalse();
+		assertThat(AopUtils.isCglibProxy(sampleRepository)).isFalse();
 
 		assertExceptionTranslationActive(repository);
 	}
